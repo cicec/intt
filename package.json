@@ -2,24 +2,20 @@
   "name": "peekaboo",
   "version": "0.1.0",
   "main": "dist/index.js",
-  "type": "module",
   "author": "cicec <clancysong@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node --loader ts-node/esm --experimental-specifier-resolution=node src/index.ts",
+    "build": "esbuild src/index.ts --platform=node --bundle --minify --outfile=dist/index.js",
     "format": "prettier -w ."
   },
   "dependencies": {
-    "fs-extra": "^10.0.0",
     "javascript-stringify": "^2.1.0",
     "kolorist": "^1.5.0",
     "prompts": "^2.4.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.11",
     "@types/prompts": "^2.0.13",
-    "prettier": "^2.3.2",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.5"
+    "esbuild": "^0.12.15",
+    "prettier": "^2.3.2"
   }
 }
