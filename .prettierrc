@@ -1,8 +1,9 @@
 {
   "arrowParens": "avoid",
   "printWidth": 100,
+  "quoteProps": "preserve",
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
-  "quoteProps": "preserve"
+  "trailingComma": "none"
 }
