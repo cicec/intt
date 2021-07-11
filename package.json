@@ -1,12 +1,23 @@
 {
-  "name": "peekaboo",
+  "name": "intt",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "author": "cicec <clancysong@gmail.com>",
   "license": "MIT",
+  "author": "cicec <clancysong@gmail.com>",
+  "bin": {
+    "intt": "dist/index.js"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --platform=node --bundle --minify --outfile=dist/index.js",
+    "build": "esbuild src/index.ts --platform=node --bundle --minify --outfile=dist/index.js && echo '#! /usr/bin/env node'  | cat - dist/index.js > /tmp/out && mv /tmp/out dist/index.js",
     "format": "prettier -w ."
+  },
+  "homepage": "https://github.com/cicec/intt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cicec/intt.git"
   },
   "dependencies": {
     "axios": "^0.21.1",
