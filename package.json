@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "commander": "^8.0.0",
     "javascript-stringify": "^2.1.0",
     "kolorist": "^1.5.0",
     "ora": "^5.4.1",
