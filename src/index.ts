@@ -2,15 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import prompts from 'prompts'
 import { red } from 'kolorist'
-import { execute, foreach } from './utils'
+import { execute, foreach, is } from './utils'
 import { reactApp, reactIndex } from './templates/react'
 import { vueApp, vueIndex } from './templates/vue'
 import { packageJson } from './templates/package-json'
 import { webpackConfig } from './templates/webpack-config'
+import { snowpackConfig } from './templates/snowpack-config'
 import { babelrc, gitignore, html } from './templates/base'
-import { MainLibrary } from './types'
+import { MainLibrary, Bundler } from './types'
 
-type FileMap = { [key: string]: string | FileMap }
+type FileMap = { [key: string]: string | FileMap | undefined }
 
 const writeFiles = async (fileMap: FileMap, dir: string) => {
   fs.mkdirSync(dir)
@@ -51,6 +52,15 @@ execute(async () => {
       },
       {
         type: 'select',
+        name: 'bundler',
+        message: 'Select a module bundler: ',
+        choices: [
+          { title: 'Webpack', value: Bundler.WEBPACK },
+          { title: 'Snowpack', value: Bundler.SNOWPACK }
+        ]
+      },
+      {
+        type: 'select',
         name: 'mainLibrary',
         message: 'Select a main library: ',
         choices: [
@@ -66,29 +76,38 @@ execute(async () => {
     }
   )
 
-  const { name, mainLibrary } = answers
+  const { name, bundler, mainLibrary } = answers
+
+  const dist = is.webpack(bundler) ? { 'index.html': html({ name }) } : undefined
 
   const src = execute(() => {
-    if (mainLibrary === MainLibrary.REACT) {
-      return { 'App.jsx': reactApp(), 'index.jsx': reactIndex() }
+    const fileMap: FileMap = {}
+
+    if (is.snowpack(bundler)) {
+      Object.assign(fileMap, {
+        'index.html': html({ name, bundleFilename: 'index.js', isModule: true })
+      })
     }
 
-    if (mainLibrary === MainLibrary.VUE) {
-      return { 'App.vue': vueApp(), 'index.js': vueIndex() }
+    if (is.react(mainLibrary)) {
+      Object.assign(fileMap, { 'App.jsx': reactApp(), 'index.jsx': reactIndex() })
     }
 
-    return {} as FileMap
+    if (is.vue(mainLibrary)) {
+      Object.assign(fileMap, { 'App.vue': vueApp(), 'index.js': vueIndex() })
+    }
+
+    return fileMap
   })
 
   const fileMap: FileMap = {
-    dist: {
-      'index.html': html(answers)
-    },
+    dist,
     src,
     '.babelrc': babelrc(answers),
     '.gitignore': gitignore(),
     'package.json': await packageJson(answers),
-    'webpack.config.js': webpackConfig(answers)
+    'webpack.config.js': is.webpack(bundler) ? webpackConfig(answers) : undefined,
+    'snowpack.config.json': is.snowpack(bundler) ? snowpackConfig(answers) : undefined
   }
 
   const root = path.resolve(process.cwd(), name)

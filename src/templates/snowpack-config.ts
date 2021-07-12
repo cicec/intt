@@ -1,7 +1,7 @@
 import { stringify } from '../utils'
 import { Answers, MainLibrary } from '../types'
 
-export default ({ mainLibrary }: Answers) => {
+export const snowpackConfig = ({ mainLibrary }: Answers) => {
   const plugins = () => {
     if (mainLibrary === MainLibrary.VUE) {
       return ['@snowpack/plugin-vue']
