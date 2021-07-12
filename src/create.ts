@@ -2,14 +2,14 @@ import fs from 'fs'
 import path from 'path'
 import prompts from 'prompts'
 import { red } from 'kolorist'
-import { execute, foreach, is } from './utils'
-import { reactApp, reactIndex } from './templates/react'
-import { vueApp, vueIndex } from './templates/vue'
+import { execute, foreach, is, has } from './utils'
+import { reactApp, reactAppTs, reactIndex, reactIndexTs } from './templates/react'
+import { vueApp, vueIndex, vueShims } from './templates/vue'
 import { packageJson } from './templates/package-json'
 import { webpackConfig } from './templates/webpack-config'
 import { snowpackConfig } from './templates/snowpack-config'
-import { babelrc, gitignore, html } from './templates/base'
-import { Answers, MainLibrary, Bundler } from './types'
+import { babelrc, gitignore, html, tsconfig } from './templates/base'
+import { MainLibrary, Bundler, Features } from './types'
 
 type FileMap = { [key: string]: string | FileMap | undefined }
 
@@ -34,7 +34,7 @@ export const create = async (name = '') =>
         type: name ? null : 'text',
         name: 'name',
         message: 'Project Name: ',
-        initial: 'app',
+        initial: 'intt-app',
         onState: ({ value }) => (name = value)
       },
       {
@@ -69,6 +69,23 @@ export const create = async (name = '') =>
           { title: 'React', value: MainLibrary.REACT },
           { title: 'Vue', value: MainLibrary.VUE }
         ]
+      },
+      {
+        type: 'multiselect',
+        name: 'features',
+        message: 'Select the features needed: ',
+        instructions: false,
+        hint: '- Space to select. Return to submit',
+        choices: (_, { bundler, mainLibrary }) => {
+          const choices = []
+
+          if (is.webpack(bundler)) {
+            choices.push({ title: 'Babel', value: Features.BABEL, selected: is.react(mainLibrary) })
+          }
+          choices.push({ title: 'Typescript', value: Features.TYPESCRIPT })
+
+          return choices
+        }
       }
     ],
     {
@@ -78,7 +95,7 @@ export const create = async (name = '') =>
     }
   )
     .then(async answers => {
-      const { bundler, mainLibrary } = answers
+      const { bundler, mainLibrary, features } = answers
 
       const dist = is.webpack(bundler) ? { 'index.html': html({ name }) } : undefined
 
@@ -92,11 +109,21 @@ export const create = async (name = '') =>
         }
 
         if (is.react(mainLibrary)) {
-          Object.assign(fileMap, { 'App.jsx': reactApp(), 'index.jsx': reactIndex() })
+          if (has.typescript(features)) {
+            Object.assign(fileMap, { 'App.tsx': reactAppTs(), 'index.tsx': reactIndexTs() })
+          } else {
+            Object.assign(fileMap, { 'App.jsx': reactApp(), 'index.jsx': reactIndex() })
+          }
         }
 
         if (is.vue(mainLibrary)) {
-          Object.assign(fileMap, { 'App.vue': vueApp(), 'index.js': vueIndex() })
+          Object.assign(fileMap, { 'App.vue': vueApp(answers) })
+
+          if (has.typescript(features)) {
+            Object.assign(fileMap, { 'index.ts': vueIndex(), 'shims-vue.d.ts': vueShims() })
+          } else {
+            Object.assign(fileMap, { 'index.js': vueIndex() })
+          }
         }
 
         return fileMap
@@ -105,9 +132,10 @@ export const create = async (name = '') =>
       const fileMap: FileMap = {
         dist,
         src,
-        '.babelrc': is.webpack(bundler) ? babelrc(answers) : undefined,
+        '.babelrc': has.babel(features) ? babelrc(answers) : undefined,
         '.gitignore': gitignore(),
         'package.json': await packageJson(answers),
+        'tsconfig.json': has.typescript(features) ? tsconfig(answers) : undefined,
         'webpack.config.js': is.webpack(bundler) ? webpackConfig(answers) : undefined,
         'snowpack.config.json': is.snowpack(bundler) ? snowpackConfig(answers) : undefined
       }

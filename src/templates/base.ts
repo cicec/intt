@@ -1,4 +1,4 @@
-import { stringify } from '../utils'
+import { is, stringify } from '../utils'
 import { Answers, MainLibrary } from '../types'
 
 export const html = ({
@@ -47,3 +47,20 @@ node_modules/
 ehthumbs.db
 Thumbs.db
 `
+
+export const tsconfig = ({ mainLibrary }: Answers) =>
+  stringify.json({
+    compilerOptions: {
+      outDir: './dist/',
+      sourceMap: true,
+      strict: true,
+      noImplicitReturns: true,
+      noImplicitAny: true,
+      module: 'es6',
+      moduleResolution: 'node',
+      target: 'es5',
+      allowJs: true,
+      jsx: is.react(mainLibrary) ? 'react' : undefined
+    },
+    include: ['./src/**/*']
+  })

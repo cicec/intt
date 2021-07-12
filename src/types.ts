@@ -8,8 +8,14 @@ export enum MainLibrary {
   VUE = 'vue'
 }
 
+export enum Features {
+  BABEL = 'babel',
+  TYPESCRIPT = 'typescript'
+}
+
 export type Answers = {
   name: string
   bundler: Bundler
   mainLibrary: MainLibrary
+  features: Features[]
 }

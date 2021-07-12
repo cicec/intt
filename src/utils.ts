@@ -1,6 +1,6 @@
 import process from 'child_process'
 import { stringify as jsStringify } from 'javascript-stringify'
-import { Bundler, MainLibrary } from './types'
+import { Bundler, Features, MainLibrary } from './types'
 
 export const keys = <K extends string>(obj: Record<K, any>) => Object.keys(obj) as K[]
 
@@ -44,4 +44,9 @@ export const is = {
   snowpack: (v: string): v is Bundler.SNOWPACK => v === Bundler.SNOWPACK,
   react: (v: string): v is MainLibrary.REACT => v === MainLibrary.REACT,
   vue: (v: string): v is MainLibrary.VUE => v === MainLibrary.VUE
+}
+
+export const has = {
+  babel: (v: string[]) => v.includes(Features.BABEL),
+  typescript: (v: string[]) => v.includes(Features.TYPESCRIPT)
 }
