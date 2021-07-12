@@ -1,15 +1,19 @@
-import { execute, stringify } from '../utils'
+import { execute, has, is, stringify } from '../utils'
 import { Answers, MainLibrary } from '../types'
 
-export const webpackConfig = ({ mainLibrary }: Answers) => {
+export const webpackConfig = ({ mainLibrary, features }: Answers) => {
   const entry = execute(() => {
-    let entry = './src/index.js'
+    let suffix = 'js'
 
-    if (mainLibrary === MainLibrary.REACT) {
-      return entry + 'x'
+    if (has.typescript(features)) {
+      suffix = 'ts'
     }
 
-    return entry
+    if (mainLibrary === MainLibrary.REACT) {
+      suffix += 'x'
+    }
+
+    return './src/index.' + suffix
   })
 
   const imports = execute(() => {
@@ -25,7 +29,7 @@ export const webpackConfig = ({ mainLibrary }: Answers) => {
   const rules = execute(() => {
     const rules = []
 
-    if (mainLibrary === MainLibrary.REACT) {
+    if (is.react(mainLibrary)) {
       rules.push({
         test: /\.(js|jsx)$/,
         use: 'babel-loader',
@@ -33,7 +37,7 @@ export const webpackConfig = ({ mainLibrary }: Answers) => {
       })
     }
 
-    if (mainLibrary === MainLibrary.VUE) {
+    if (is.vue(mainLibrary)) {
       rules.push(
         {
           test: /\.vue$/,
@@ -47,18 +51,39 @@ export const webpackConfig = ({ mainLibrary }: Answers) => {
       )
     }
 
+    if (has.typescript(features)) {
+      rules.push({
+        test: /\.ts(x)?$/,
+        loader: 'ts-loader',
+        options: is.vue(mainLibrary)
+          ? {
+              appendTsSuffixTo: [/\.vue$/]
+            }
+          : undefined,
+        exclude: /node_modules/
+      })
+    }
+
     return rules
   })
 
   const extensions = execute(() => {
     const extensions = ['.js']
 
-    if (mainLibrary === MainLibrary.REACT) {
+    if (is.react(mainLibrary)) {
       extensions.push('.jsx')
     }
 
-    if (mainLibrary === MainLibrary.VUE) {
+    if (is.vue(mainLibrary)) {
       extensions.push('.vue')
+    }
+
+    if (has.typescript(features)) {
+      extensions.push('.ts')
+
+      if (is.react(mainLibrary)) {
+        extensions.push('.tsx')
+      }
     }
 
     return extensions
@@ -67,7 +92,7 @@ export const webpackConfig = ({ mainLibrary }: Answers) => {
   const plugins = execute(() => {
     const plugins = []
 
-    if (mainLibrary === MainLibrary.VUE) {
+    if (is.vue(mainLibrary)) {
       plugins.push('CODE:new VueLoaderPlugin()')
     }
 

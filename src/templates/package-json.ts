@@ -1,6 +1,6 @@
 import axios from 'axios'
 import ora from 'ora'
-import { execute, is, stringify } from '../utils'
+import { execute, has, is, stringify } from '../utils'
 import { Answers } from '../types'
 
 type Dependency = string | { name: string; version: string }
@@ -32,7 +32,7 @@ const mapVersions = async (deps: Dependency[]) => {
   return versions.reduce((acc, { name, version }) => ({ ...acc, ...{ [name]: version } }), {})
 }
 
-export const packageJson = async ({ name, bundler, mainLibrary }: Answers) => {
+export const packageJson = async ({ name, bundler, mainLibrary, features }: Answers) => {
   const scripts = execute(() => {
     if (is.snowpack(bundler)) {
       return {
@@ -66,15 +66,24 @@ export const packageJson = async ({ name, bundler, mainLibrary }: Answers) => {
   })
 
   const devDependencies = await execute(() => {
+    const deps: Dependency[] = []
+
+    if (has.typescript(features)) {
+      deps.push('typescript')
+    }
+
+    if (is.react(mainLibrary)) {
+      if (has.typescript(features)) {
+        deps.push('@types/react', '@types/react-dom')
+      }
+    }
+
     if (is.webpack(bundler)) {
-      const deps = [
-        'webpack',
-        'webpack-cli',
-        'webpack-dev-server',
-        'babel-loader',
-        '@babel/core',
-        '@babel/preset-env'
-      ]
+      deps.push('webpack', 'webpack-cli', 'webpack-dev-server')
+
+      if (has.babel(features)) {
+        deps.push('babel-loader', '@babel/core', '@babel/preset-env')
+      }
 
       if (is.react(mainLibrary)) {
         deps.push('@babel/preset-react')
@@ -84,20 +93,20 @@ export const packageJson = async ({ name, bundler, mainLibrary }: Answers) => {
         deps.push('vue-loader', 'vue-template-compiler', '@vue/compiler-sfc')
       }
 
-      return mapVersions(deps)
+      if (has.typescript(features)) {
+        deps.push('ts-loader')
+      }
     }
 
     if (is.snowpack(bundler)) {
-      const deps = ['snowpack']
+      deps.push('snowpack')
 
       if (is.vue(mainLibrary)) {
         deps.push('@snowpack/plugin-vue')
       }
-
-      return mapVersions(deps)
     }
 
-    return mapVersions([])
+    return mapVersions(deps)
   })
 
   return stringify.json({
