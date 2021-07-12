@@ -2,8 +2,6 @@
 
 > A command line tool to create front-end apps easily and quickly
 
-![](screenshots/example.gif)
-
 ## Install
 
 ```
