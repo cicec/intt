@@ -1,15 +1,13 @@
 import axios from 'axios'
 import ora from 'ora'
-import { command, execute, is, stringify } from '../utils'
-import { Answers, Bundler, MainLibrary } from '../types'
+import { execute, is, stringify } from '../utils'
+import { Answers } from '../types'
 
 type Dependency = string | { name: string; version: string }
 
 const mapVersions = async (deps: Dependency[]) => {
-  const register = await execute(async () => {
-    const { stdout } = await command(`npm config get register`)
-    return stdout.replace(/\n$/, '')
-  })
+  // TODO: customize the default mirror
+  const mirror = 'https://registry.npm.taobao.org'
 
   const spinner = ora().start()
 
@@ -19,7 +17,7 @@ const mapVersions = async (deps: Dependency[]) => {
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(async ({ name, version }) => {
         spinner.text = name
-        const { status, data } = await axios(`${register}/${name}/${version}`)
+        const { status, data } = await axios(`${mirror}/${name}/${version}`)
 
         if (status === 200 && data) {
           return { name: data.name, version: '^' + data.version }
