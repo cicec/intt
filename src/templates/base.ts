@@ -1,7 +1,11 @@
 import { stringify } from '../utils'
 import { Answers, MainLibrary } from '../types'
 
-export const html = ({ name }: Answers) => `<!DOCTYPE html>
+export const html = ({
+  name = 'app',
+  bundleFilename = 'bundle.js',
+  isModule = false
+} = {}) => `<!DOCTYPE html>
 <html>
   <head>
     <title>${name}</title>
@@ -9,7 +13,7 @@ export const html = ({ name }: Answers) => `<!DOCTYPE html>
   </head>
   <body>
     <div id="app"></div>
-    <script src="bundle.js"></script>
+    <script ${isModule ? ` type="module"` : ``}  src="${bundleFilename}"></script>
   </body>
 </html>
 `

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import ora from 'ora'
-import { command, execute, stringify } from '../utils'
-import { Answers, MainLibrary } from '../types'
+import { command, execute, is, stringify } from '../utils'
+import { Answers, Bundler, MainLibrary } from '../types'
 
 type Dependency = string | { name: string; version: string }
 
@@ -34,22 +34,33 @@ const mapVersions = async (deps: Dependency[]) => {
   return versions.reduce((acc, { name, version }) => ({ ...acc, ...{ [name]: version } }), {})
 }
 
-export const packageJson = async ({ name, mainLibrary }: Answers) => {
+export const packageJson = async ({ name, bundler, mainLibrary }: Answers) => {
   const scripts = execute(() => {
-    return {
-      'start': 'webpack serve --mode development',
-      'build': 'webpack --mode production'
+    if (is.snowpack(bundler)) {
+      return {
+        'start': 'snowpack dev',
+        'build': 'snowpack build'
+      }
     }
+
+    if (is.webpack(bundler)) {
+      return {
+        'start': 'webpack serve --mode development',
+        'build': 'webpack --mode production'
+      }
+    }
+
+    return {}
   })
 
   const dependencies = await execute(() => {
     const deps: Dependency[] = []
 
-    if (mainLibrary === MainLibrary.REACT) {
+    if (is.react(mainLibrary)) {
       deps.push('react', 'react-dom')
     }
 
-    if (mainLibrary === MainLibrary.VUE) {
+    if (is.vue(mainLibrary)) {
       deps.push({ name: 'vue', version: 'next' })
     }
 
@@ -57,24 +68,38 @@ export const packageJson = async ({ name, mainLibrary }: Answers) => {
   })
 
   const devDependencies = await execute(() => {
-    const deps = [
-      'webpack',
-      'webpack-cli',
-      'webpack-dev-server',
-      'babel-loader',
-      '@babel/core',
-      '@babel/preset-env'
-    ]
+    if (is.webpack(bundler)) {
+      const deps = [
+        'webpack',
+        'webpack-cli',
+        'webpack-dev-server',
+        'babel-loader',
+        '@babel/core',
+        '@babel/preset-env'
+      ]
 
-    if (mainLibrary === MainLibrary.REACT) {
-      deps.push('@babel/preset-react')
+      if (is.react(mainLibrary)) {
+        deps.push('@babel/preset-react')
+      }
+
+      if (is.vue(mainLibrary)) {
+        deps.push('vue-loader', 'vue-template-compiler', '@vue/compiler-sfc')
+      }
+
+      return mapVersions(deps)
     }
 
-    if (mainLibrary === MainLibrary.VUE) {
-      deps.push('vue-loader', 'vue-template-compiler', '@vue/compiler-sfc')
+    if (is.snowpack(bundler)) {
+      const deps = ['snowpack']
+
+      if (is.vue(mainLibrary)) {
+        deps.push('@snowpack/plugin-vue')
+      }
+
+      return mapVersions(deps)
     }
 
-    return mapVersions(deps)
+    return mapVersions([])
   })
 
   return stringify.json({
