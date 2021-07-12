@@ -105,7 +105,7 @@ export const create = async (name = '') =>
       const fileMap: FileMap = {
         dist,
         src,
-        '.babelrc': babelrc(answers),
+        '.babelrc': is.webpack(bundler) ? babelrc(answers) : undefined,
         '.gitignore': gitignore(),
         'package.json': await packageJson(answers),
         'webpack.config.js': is.webpack(bundler) ? webpackConfig(answers) : undefined,
