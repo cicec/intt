@@ -13,7 +13,7 @@ $ npm install -g intt
 ## Usage
 
 ```
-$ intt
+$ intt my-app
 ```
 
 ## License
