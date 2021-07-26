@@ -25,7 +25,7 @@ const typescript: Plugin = ({ is }) => {
       'tsconfig.json': tsconfig()
     },
     package: {
-      devDependencies: ['typescript'].concat(is.webpack ? ['ts-loader'] : [])
+      devDependencies: is.webpack ? ['ts-loader', 'typescript'] : []
     },
     webpack: {
       extensions: ['.ts'],
