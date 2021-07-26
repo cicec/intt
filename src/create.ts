@@ -2,18 +2,19 @@ import fs from 'fs'
 import path from 'path'
 import prompts from 'prompts'
 import { red } from 'kolorist'
-import { execute, foreach, is, has } from './utils'
-import { reactApp, reactAppTs, reactIndex, reactIndexTs } from './templates/react'
-import { vueApp, vueIndex, vueShims } from './templates/vue'
-import { packageJson } from './templates/package-json'
-import { webpackConfig } from './templates/webpack-config'
-import { snowpackConfig } from './templates/snowpack-config'
-import { babelrc, gitignore, html, tsconfig } from './templates/base'
-import { MainLibrary, Bundler, Features } from './types'
+import { execute, foreach, is, mergeDeepWith } from './utils'
+import { Answers, MainLibrary, Bundler, Features, PluginConfig, Files } from './types'
 
-type FileMap = { [key: string]: string | FileMap | undefined }
+import plugins from './plugins'
+import {
+  generateBabel,
+  generatePackage,
+  generateWebpack,
+  generateGitignore,
+  generateSnowpack
+} from './generate'
 
-const writeFiles = async (fileMap: FileMap, dir: string) => {
+const writeFiles = async (fileMap: Files, dir: string) => {
   fs.mkdirSync(dir)
 
   foreach((value, key) => {
@@ -76,11 +77,11 @@ export const create = async (name = '') =>
         message: 'Select the features needed: ',
         instructions: false,
         hint: '- Space to select. Return to submit',
-        choices: (_, { bundler, mainLibrary }) => {
+        choices: (_, answers) => {
           const choices = []
 
-          if (is.webpack(bundler)) {
-            choices.push({ title: 'Babel', value: Features.BABEL, selected: is.react(mainLibrary) })
+          if (is.webpack(answers)) {
+            choices.push({ title: 'Babel', value: Features.BABEL, selected: is.react(answers) })
           }
           choices.push({ title: 'Typescript', value: Features.TYPESCRIPT })
 
@@ -95,50 +96,40 @@ export const create = async (name = '') =>
     }
   )
     .then(async answers => {
-      const { bundler, mainLibrary, features } = answers
+      const config = execute((answers: Answers) => {
+        return plugins
+          .map(plugin => plugin(answers))
+          .filter(({ condition }) => condition)
+          .reduce<PluginConfig>((acc, elem) => {
+            const isArr = (x: unknown) => Array.isArray(x)
 
-      const dist = is.webpack(bundler) ? { 'index.html': html({ name }) } : undefined
+            return mergeDeepWith((_, a, b) => (isArr(a) && isArr(b) ? [...a, ...b] : b), acc, elem)
+          }, {})
+      }, answers)
 
-      const src = execute(() => {
-        const fileMap: FileMap = {}
-
-        if (is.snowpack(bundler)) {
-          Object.assign(fileMap, {
-            'index.html': html({ name, bundleFilename: 'index.js', isModule: true })
-          })
+      const files = await execute(async () => {
+        const files: Files = {
+          ...config.files,
+          '.gitignore': generateGitignore(),
+          'package.json': await generatePackage(name, config.package)
         }
 
-        if (is.react(mainLibrary)) {
-          if (has.typescript(features)) {
-            Object.assign(fileMap, { 'App.tsx': reactAppTs(), 'index.tsx': reactIndexTs() })
-          } else {
-            Object.assign(fileMap, { 'App.jsx': reactApp(), 'index.jsx': reactIndex() })
-          }
+        const append = (fileMap: { [x: string]: string }) => Object.assign(files, fileMap)
+
+        if (is.babel(answers)) {
+          append({ '.babelrc': generateBabel(config.babel) })
         }
 
-        if (is.vue(mainLibrary)) {
-          Object.assign(fileMap, { 'App.vue': vueApp(answers) })
-
-          if (has.typescript(features)) {
-            Object.assign(fileMap, { 'index.ts': vueIndex(), 'shims-vue.d.ts': vueShims() })
-          } else {
-            Object.assign(fileMap, { 'index.js': vueIndex() })
-          }
+        if (is.snowpack(answers)) {
+          append({ 'snowpack.config.json': generateSnowpack(config.snowpack) })
         }
 
-        return fileMap
+        if (is.webpack(answers)) {
+          append({ 'webpack.config.js': generateWebpack(config.webpack) })
+        }
+
+        return files
       })
-
-      const fileMap: FileMap = {
-        dist,
-        src,
-        '.babelrc': has.babel(features) ? babelrc(answers) : undefined,
-        '.gitignore': gitignore(),
-        'package.json': await packageJson(answers),
-        'tsconfig.json': has.typescript(features) ? tsconfig(answers) : undefined,
-        'webpack.config.js': is.webpack(bundler) ? webpackConfig(answers) : undefined,
-        'snowpack.config.json': is.snowpack(bundler) ? snowpackConfig(answers) : undefined
-      }
 
       const root = path.resolve(process.cwd(), name)
 
@@ -146,7 +137,7 @@ export const create = async (name = '') =>
         fs.rmSync(root, { recursive: true })
       }
 
-      await writeFiles(fileMap, root)
+      await writeFiles(files, root)
 
       console.log(`🎉 Done!`)
     })
