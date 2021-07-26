@@ -111,19 +111,19 @@ export const generateHtml = ({ name = 'app', isModule = false } = {}) => dedent`
 `
 
 export const generateGitignore = () => dedent`
-.cache/
-coverage/
-dist/*
-!dist/index.html
-node_modules/
-*.log
+  .cache/
+  coverage/
+  dist/*
+  !dist/index.html
+  node_modules/
+  *.log
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+  # OS generated files
+  .DS_Store
+  .DS_Store?
+  ._*
+  .Spotlight-V100
+  .Trashes
+  ehthumbs.db
+  Thumbs.db
 `

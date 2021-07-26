@@ -3,49 +3,49 @@ import { execute } from '../utils'
 import { Plugin } from '../types'
 
 const reactApp = () => dedent`
-import React from 'react'
+  import React from 'react'
 
-const App = props => (
-  <>
-    <h1>Hello {props.name}</h1>
-  </>
-)
+  const App = props => (
+    <>
+      <h1>Hello {props.name}</h1>
+    </>
+  )
 
-export default App
+  export default App
 `
 
 const reactAppTs = () => dedent`
-import * as React from 'react'
+  import * as React from 'react'
 
-interface Props {
-  name: string
-}
+  interface Props {
+    name: string
+  }
 
-const App = (props: Props) => (
-  <>
-    <h1>Hello {props.name}</h1>
-  </>
-)
+  const App = (props: Props) => (
+    <>
+      <h1>Hello {props.name}</h1>
+    </>
+  )
 
-export default App
+  export default App
 `
 
 const reactIndex = () => dedent`
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+  import React from 'react'
+  import ReactDOM from 'react-dom'
+  import App from './App'
 
-var mountNode = document.getElementById('app')
-ReactDOM.render(<App name="Jane" />, mountNode)
+  var mountNode = document.getElementById('app')
+  ReactDOM.render(<App name="Jane" />, mountNode)
 `
 
 const reactIndexTs = () => dedent`
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import App from './App'
+  import * as React from 'react'
+  import * as ReactDOM from 'react-dom'
+  import App from './App'
 
-const mountNode = document.getElementById('app')
-ReactDOM.render(<App name="Jane" />, mountNode)
+  const mountNode = document.getElementById('app')
+  ReactDOM.render(<App name="Jane" />, mountNode)
 `
 
 const react: Plugin = ({ is }) => {

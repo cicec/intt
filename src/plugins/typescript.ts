@@ -1,29 +1,6 @@
 import { stringify } from '../utils'
 import { Plugin } from '../types'
 
-const reactApp = () => `import React from 'react'
-
-interface Props {
-  name: string
-}
-
-const App = (props: Props) => (
-  <>
-    <h1>Hello {props.name}</h1>
-  </>
-)
-
-export default App
-`
-
-const reactIndex = () => `import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-
-var mountNode = document.getElementById('app')
-ReactDOM.render(<App name="Jane" />, mountNode)
-`
-
 const tsconfig = () =>
   stringify.json({
     compilerOptions: {
