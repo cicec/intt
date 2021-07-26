@@ -1,4 +1,4 @@
-import { is, stringify } from '../utils'
+import { stringify } from '../utils'
 import { Plugin } from '../types'
 
 const reactApp = () => `import React from 'react'
@@ -41,14 +41,14 @@ const tsconfig = () =>
     include: ['./src/**/*']
   })
 
-const typescript: Plugin = answers => {
+const typescript: Plugin = ({ is }) => {
   return {
-    condition: is.typescript(answers),
+    condition: is.typescript,
     files: {
       'tsconfig.json': tsconfig()
     },
     package: {
-      devDependencies: ['typescript'].concat(is.webpack(answers) ? ['ts-loader'] : [])
+      devDependencies: ['typescript'].concat(is.webpack ? ['ts-loader'] : [])
     },
     webpack: {
       extensions: ['.ts'],

@@ -2,8 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import prompts from 'prompts'
 import { red } from 'kolorist'
-import { execute, foreach, is, mergeDeepWith } from './utils'
-import { Answers, MainLibrary, Bundler, Features, PluginConfig, Files } from './types'
+import { execute, foreach, getCLIOptions, mergeDeepWith } from './utils'
+import { Framework, Bundler, Feature, PluginConfig, Files } from './types'
 
 import plugins from './plugins'
 import {
@@ -64,11 +64,11 @@ export const create = async (name = '') =>
       },
       {
         type: 'select',
-        name: 'mainLibrary',
-        message: 'Select a main library: ',
+        name: 'framework',
+        message: 'Select a framework: ',
         choices: [
-          { title: 'React', value: MainLibrary.REACT },
-          { title: 'Vue', value: MainLibrary.VUE }
+          { title: 'React', value: Framework.REACT },
+          { title: 'Vue', value: Framework.VUE }
         ]
       },
       {
@@ -78,12 +78,13 @@ export const create = async (name = '') =>
         instructions: false,
         hint: '- Space to select. Return to submit',
         choices: (_, answers) => {
+          const { is } = getCLIOptions(answers)
           const choices = []
 
-          if (is.webpack(answers)) {
-            choices.push({ title: 'Babel', value: Features.BABEL, selected: is.react(answers) })
+          if (is.webpack) {
+            choices.push({ title: 'Babel', value: Feature.BABEL, selected: is.react })
           }
-          choices.push({ title: 'Typescript', value: Features.TYPESCRIPT })
+          choices.push({ title: 'Typescript', value: Feature.TYPESCRIPT })
 
           return choices
         }
@@ -96,16 +97,19 @@ export const create = async (name = '') =>
     }
   )
     .then(async answers => {
-      const config = execute((answers: Answers) => {
+      const options = getCLIOptions(answers)
+      const { name, is } = options
+
+      const config = execute(() => {
         return plugins
-          .map(plugin => plugin(answers))
+          .map(plugin => plugin(options))
           .filter(({ condition }) => condition)
           .reduce<PluginConfig>((acc, elem) => {
             const isArr = (x: unknown) => Array.isArray(x)
 
             return mergeDeepWith((_, a, b) => (isArr(a) && isArr(b) ? [...a, ...b] : b), acc, elem)
           }, {})
-      }, answers)
+      })
 
       const files = await execute(async () => {
         const files: Files = {
@@ -116,15 +120,15 @@ export const create = async (name = '') =>
 
         const append = (fileMap: { [x: string]: string }) => Object.assign(files, fileMap)
 
-        if (is.babel(answers)) {
+        if (is.babel) {
           append({ '.babelrc': generateBabel(config.babel) })
         }
 
-        if (is.snowpack(answers)) {
+        if (is.snowpack) {
           append({ 'snowpack.config.json': generateSnowpack(config.snowpack) })
         }
 
-        if (is.webpack(answers)) {
+        if (is.webpack) {
           append({ 'webpack.config.js': generateWebpack(config.webpack) })
         }
 

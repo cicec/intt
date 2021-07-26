@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent'
-import { execute, is } from '../utils'
-import { Answers, Plugin } from '../types'
+import { execute } from '../utils'
+import { Plugin } from '../types'
 
 const reactApp = () => dedent`
 import React from 'react'
@@ -48,9 +48,9 @@ const mountNode = document.getElementById('app')
 ReactDOM.render(<App name="Jane" />, mountNode)
 `
 
-const react: Plugin = answers => {
+const react: Plugin = ({ is }) => {
   const src = execute(() => {
-    if (is.typescript(answers)) {
+    if (is.typescript) {
       return {
         'App.tsx': reactAppTs(),
         'index.tsx': reactIndexTs()
@@ -65,11 +65,11 @@ const react: Plugin = answers => {
 
   const devDependencies = execute(() => {
     const result = []
-    if (is.typescript(answers)) {
+    if (is.typescript) {
       result.push('@types/react', '@types/react-dom')
     }
 
-    if (is.babel(answers)) {
+    if (is.babel) {
       result.push('@babel/preset-react')
     }
 
@@ -77,7 +77,7 @@ const react: Plugin = answers => {
   })
 
   return {
-    condition: is.react(answers),
+    condition: is.react,
     files: {
       src
     },
@@ -89,7 +89,7 @@ const react: Plugin = answers => {
       presets: ['@babel/preset-react']
     },
     webpack: {
-      entry: './src/index.' + (is.typescript(answers) ? 'tsx' : 'jsx'),
+      entry: './src/index.' + (is.typescript ? 'tsx' : 'jsx'),
       extensions: ['.jsx', '.tsx']
     }
   }

@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent'
-import { Features, Plugin } from '../types'
-import { execute, is } from '../utils'
+import { Plugin } from '../types'
+import { execute } from '../utils'
 
 const vueApp = (isTypescript: boolean) => dedent`
   <template>
@@ -33,9 +33,9 @@ const vueShims = () => dedent`
   }
 `
 
-const vue: Plugin = answers => {
+const vue: Plugin = ({ is }) => {
   const src = execute(() => {
-    if (is.typescript(answers)) {
+    if (is.typescript) {
       return { 'App.vue': vueApp(true), 'index.ts': vueIndex(), 'shims-vue.d.ts': vueShims() }
     }
 
@@ -43,11 +43,11 @@ const vue: Plugin = answers => {
   })
 
   const devDependencies = execute(() => {
-    if (is.webpack(answers)) {
+    if (is.webpack) {
       return ['@vue/compiler-sfc', 'vue-loader@next']
     }
 
-    if (is.snowpack(answers)) {
+    if (is.snowpack) {
       return ['@snowpack/plugin-vue']
     }
 
@@ -57,7 +57,7 @@ const vue: Plugin = answers => {
   const rules = execute(() => {
     const rules: any[] = [{ test: /\.vue$/, loader: 'vue-loader', exclude: /node_modules/ }]
 
-    if (is.typescript(answers)) {
+    if (is.typescript) {
       rules.push({
         test: /\.ts(x)?$/,
         loader: 'ts-loader',
@@ -70,7 +70,7 @@ const vue: Plugin = answers => {
   })
 
   return {
-    condition: is.vue(answers),
+    condition: is.vue,
     files: {
       src
     },
@@ -80,7 +80,7 @@ const vue: Plugin = answers => {
     },
     webpack: {
       prefix: [`const { VueLoaderPlugin } = require('vue-loader')`],
-      entry: './src/index.' + (is.typescript(answers) ? 'ts' : 'js'),
+      entry: './src/index.' + (is.typescript ? 'ts' : 'js'),
       extensions: ['.vue', '.ts'],
       rules,
       plugins: ['CODE:new VueLoaderPlugin()']

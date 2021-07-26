@@ -1,12 +1,9 @@
 import { generateHtml } from '../generate'
 import { Plugin } from '../types'
-import { is } from '../utils'
 
-const snowpack: Plugin = answers => {
-  const { name } = answers
-
+const snowpack: Plugin = ({ name, is }) => {
   return {
-    condition: is.snowpack(answers),
+    condition: is.snowpack,
     files: {
       src: {
         'index.html': generateHtml({ name, isModule: true })

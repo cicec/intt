@@ -1,18 +1,18 @@
-import { execute, is } from '../utils'
+import { execute } from '../utils'
 import { Plugin } from '../types'
 
-const babel: Plugin = answers => {
+const babel: Plugin = ({ is }) => {
   const devDependencies = execute(() => {
     const result = ['@babel/core', '@babel/preset-env']
 
-    if (is.webpack(answers)) {
+    if (is.webpack) {
       result.push('babel-loader')
     }
     return result
   })
 
   return {
-    condition: is.babel(answers),
+    condition: is.babel,
     package: {
       devDependencies
     },

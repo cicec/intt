@@ -1,10 +1,9 @@
 import { generateHtml } from '../generate'
 import { Plugin } from '../types'
-import { is } from '../utils'
 
-const webpack: Plugin = answers => {
+const webpack: Plugin = ({ is }) => {
   return {
-    condition: is.webpack(answers),
+    condition: is.webpack,
     files: {
       dist: {
         'index.html': generateHtml()

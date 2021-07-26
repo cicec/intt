@@ -1,6 +1,6 @@
 import process from 'child_process'
 import { stringify as jsStringify } from 'javascript-stringify'
-import { Answers, Bundler, Features, MainLibrary } from './types'
+import { Answers, Bundler, CLIOptions, Feature, Framework } from './types'
 
 export const keys = <K extends string>(obj: Record<K, any>) => Object.keys(obj) as K[]
 
@@ -88,11 +88,19 @@ export const stringify = {
     )
 }
 
-export const is: { [x: string]: (v: Answers) => boolean } = {
-  webpack: ({ bundler }) => bundler === Bundler.WEBPACK,
-  snowpack: ({ bundler }) => bundler === Bundler.SNOWPACK,
-  react: ({ mainLibrary }) => mainLibrary === MainLibrary.REACT,
-  vue: ({ mainLibrary }) => mainLibrary === MainLibrary.VUE,
-  babel: ({ features }) => features.includes(Features.BABEL),
-  typescript: ({ features }) => features.includes(Features.TYPESCRIPT)
-}
+export const getCLIOptions = ({
+  name,
+  bundler,
+  framework,
+  features = []
+}: Answers): CLIOptions => ({
+  name,
+  is: {
+    webpack: bundler === Bundler.WEBPACK,
+    snowpack: bundler === Bundler.SNOWPACK,
+    react: framework === Framework.REACT,
+    vue: framework === Framework.VUE,
+    babel: features.includes(Feature.BABEL),
+    typescript: features.includes(Feature.TYPESCRIPT)
+  }
+})

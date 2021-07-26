@@ -3,12 +3,12 @@ export enum Bundler {
   SNOWPACK = 'snowpack'
 }
 
-export enum MainLibrary {
+export enum Framework {
   REACT = 'react',
   VUE = 'vue'
 }
 
-export enum Features {
+export enum Feature {
   BABEL = 'babel',
   TYPESCRIPT = 'typescript'
 }
@@ -16,8 +16,15 @@ export enum Features {
 export type Answers = {
   name: string
   bundler: Bundler
-  mainLibrary: MainLibrary
-  features: Features[]
+  framework: Framework
+  features: Feature[]
+}
+
+export type Selection = 'webpack' | 'snowpack' | 'react' | 'vue' | 'babel' | 'typescript'
+
+export type CLIOptions = {
+  name: string
+  is: Record<Selection, boolean>
 }
 
 export type Files = { [x: string]: string | Files | undefined }
@@ -51,4 +58,4 @@ export type PluginConfig = {
   babel?: BabelConfig
 }
 
-export type Plugin = (answers: Answers) => PluginConfig
+export type Plugin = (options: CLIOptions) => PluginConfig
