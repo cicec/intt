@@ -1,7 +1,7 @@
 {
   "arrowParens": "avoid",
   "printWidth": 100,
-  "quoteProps": "preserve",
+  "quoteProps": "as-needed",
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
