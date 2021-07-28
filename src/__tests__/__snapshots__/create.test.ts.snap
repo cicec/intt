@@ -1,0 +1,860 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snowpack + React + Ts 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"snowpack dev\\",
+    \\"build\\": \\"snowpack build\\"
+  },
+  \\"dependencies\\": {
+    \\"react\\": \\"^1.0.0\\",
+    \\"react-dom\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@types/react\\": \\"^1.0.0\\",
+    \\"@types/react-dom\\": \\"^1.0.0\\",
+    \\"snowpack\\": \\"^1.0.0\\"
+  }
+}",
+  "snowpack.config.json": "{
+  \\"mount\\": {
+    \\"dist\\": \\"/\\",
+    \\"src\\": \\"/\\"
+  }
+}",
+  "src": Object {
+    "App.tsx": "import * as React from 'react'
+
+interface Props {
+  name: string
+}
+
+const App = (props: Props) => (
+  <>
+    <h1>Hello {props.name}</h1>
+  </>
+)
+
+export default App",
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>intt-app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script type=\\"module\\" src=\\"index.js\\"></script>
+  </body>
+</html>",
+    "index.tsx": "import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import App from './App'
+
+const mountNode = document.getElementById('app')
+ReactDOM.render(<App name=\\"Jane\\" />, mountNode)",
+  },
+  "tsconfig.json": "{
+  \\"compilerOptions\\": {
+    \\"outDir\\": \\"./dist/\\",
+    \\"sourceMap\\": true,
+    \\"strict\\": true,
+    \\"noImplicitReturns\\": true,
+    \\"noImplicitAny\\": true,
+    \\"module\\": \\"es6\\",
+    \\"moduleResolution\\": \\"node\\",
+    \\"target\\": \\"es5\\",
+    \\"allowJs\\": true,
+    \\"jsx\\": \\"react\\"
+  },
+  \\"include\\": [
+    \\"./src/**/*\\"
+  ]
+}",
+}
+`;
+
+exports[`Snowpack + React 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"snowpack dev\\",
+    \\"build\\": \\"snowpack build\\"
+  },
+  \\"dependencies\\": {
+    \\"react\\": \\"^1.0.0\\",
+    \\"react-dom\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"snowpack\\": \\"^1.0.0\\"
+  }
+}",
+  "snowpack.config.json": "{
+  \\"mount\\": {
+    \\"dist\\": \\"/\\",
+    \\"src\\": \\"/\\"
+  }
+}",
+  "src": Object {
+    "App.jsx": "import React from 'react'
+
+const App = props => (
+  <>
+    <h1>Hello {props.name}</h1>
+  </>
+)
+
+export default App",
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>intt-app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script type=\\"module\\" src=\\"index.js\\"></script>
+  </body>
+</html>",
+    "index.jsx": "import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+var mountNode = document.getElementById('app')
+ReactDOM.render(<App name=\\"Jane\\" />, mountNode)",
+  },
+}
+`;
+
+exports[`Snowpack + Vue + Ts 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"snowpack dev\\",
+    \\"build\\": \\"snowpack build\\"
+  },
+  \\"dependencies\\": {
+    \\"vue\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@snowpack/plugin-vue\\": \\"^1.0.0\\",
+    \\"snowpack\\": \\"^1.0.0\\"
+  }
+}",
+  "snowpack.config.json": "{
+  \\"mount\\": {
+    \\"dist\\": \\"/\\",
+    \\"src\\": \\"/\\"
+  },
+  \\"plugins\\": [
+    \\"@snowpack/plugin-vue\\"
+  ]
+}",
+  "src": Object {
+    "App.vue": "<template>
+  <div>
+    <h1>{{ name }}</h1>
+  </div>
+</template>
+
+<script lang=\\"ts\\">
+export default {
+  setup() {
+    return { name: 'Hello World!' }
+  }
+}
+</script>",
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>intt-app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script type=\\"module\\" src=\\"index.js\\"></script>
+  </body>
+</html>",
+    "index.ts": "import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')",
+    "shims-vue.d.ts": "declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}",
+  },
+  "tsconfig.json": "{
+  \\"compilerOptions\\": {
+    \\"outDir\\": \\"./dist/\\",
+    \\"sourceMap\\": true,
+    \\"strict\\": true,
+    \\"noImplicitReturns\\": true,
+    \\"noImplicitAny\\": true,
+    \\"module\\": \\"es6\\",
+    \\"moduleResolution\\": \\"node\\",
+    \\"target\\": \\"es5\\",
+    \\"allowJs\\": true,
+    \\"jsx\\": \\"react\\"
+  },
+  \\"include\\": [
+    \\"./src/**/*\\"
+  ]
+}",
+}
+`;
+
+exports[`Snowpack + Vue 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"snowpack dev\\",
+    \\"build\\": \\"snowpack build\\"
+  },
+  \\"dependencies\\": {
+    \\"vue\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@snowpack/plugin-vue\\": \\"^1.0.0\\",
+    \\"snowpack\\": \\"^1.0.0\\"
+  }
+}",
+  "snowpack.config.json": "{
+  \\"mount\\": {
+    \\"dist\\": \\"/\\",
+    \\"src\\": \\"/\\"
+  },
+  \\"plugins\\": [
+    \\"@snowpack/plugin-vue\\"
+  ]
+}",
+  "src": Object {
+    "App.vue": "<template>
+  <div>
+    <h1>{{ name }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    return { name: 'Hello World!' }
+  }
+}
+</script>",
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>intt-app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script type=\\"module\\" src=\\"index.js\\"></script>
+  </body>
+</html>",
+    "index.js": "import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')",
+  },
+}
+`;
+
+exports[`Webpack + React + Babel + Ts 1`] = `
+Object {
+  ".babelrc": "{
+  \\"presets\\": [
+    [
+      \\"@babel/preset-env\\",
+      {
+        \\"modules\\": false
+      }
+    ],
+    \\"@babel/preset-react\\"
+  ]
+}",
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "dist": Object {
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script src=\\"index.js\\"></script>
+  </body>
+</html>",
+  },
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"webpack serve --mode development\\",
+    \\"build\\": \\"webpack --mode production\\"
+  },
+  \\"dependencies\\": {
+    \\"react\\": \\"^1.0.0\\",
+    \\"react-dom\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@babel/core\\": \\"^1.0.0\\",
+    \\"@babel/preset-env\\": \\"^1.0.0\\",
+    \\"@babel/preset-react\\": \\"^1.0.0\\",
+    \\"babel-loader\\": \\"^1.0.0\\",
+    \\"webpack\\": \\"^1.0.0\\",
+    \\"webpack-cli\\": \\"^1.0.0\\",
+    \\"webpack-dev-server\\": \\"^1.0.0\\"
+  }
+}",
+  "src": Object {
+    "App.jsx": "import React from 'react'
+
+const App = props => (
+  <>
+    <h1>Hello {props.name}</h1>
+  </>
+)
+
+export default App",
+    "index.jsx": "import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+var mountNode = document.getElementById('app')
+ReactDOM.render(<App name=\\"Jane\\" />, mountNode)",
+  },
+  "webpack.config.js": "const path = require('path')
+
+
+const config = {
+  entry: './src/index.jsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.jsx',
+      '.tsx'
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\\\\.js(x)?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: []
+}
+
+module.exports = config",
+}
+`;
+
+exports[`Webpack + React + Babel 1`] = `
+Object {
+  ".babelrc": "{
+  \\"presets\\": [
+    [
+      \\"@babel/preset-env\\",
+      {
+        \\"modules\\": false
+      }
+    ],
+    \\"@babel/preset-react\\"
+  ]
+}",
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "dist": Object {
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script src=\\"index.js\\"></script>
+  </body>
+</html>",
+  },
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"webpack serve --mode development\\",
+    \\"build\\": \\"webpack --mode production\\"
+  },
+  \\"dependencies\\": {
+    \\"react\\": \\"^1.0.0\\",
+    \\"react-dom\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@babel/core\\": \\"^1.0.0\\",
+    \\"@babel/preset-env\\": \\"^1.0.0\\",
+    \\"@babel/preset-react\\": \\"^1.0.0\\",
+    \\"babel-loader\\": \\"^1.0.0\\",
+    \\"webpack\\": \\"^1.0.0\\",
+    \\"webpack-cli\\": \\"^1.0.0\\",
+    \\"webpack-dev-server\\": \\"^1.0.0\\"
+  }
+}",
+  "src": Object {
+    "App.jsx": "import React from 'react'
+
+const App = props => (
+  <>
+    <h1>Hello {props.name}</h1>
+  </>
+)
+
+export default App",
+    "index.jsx": "import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+var mountNode = document.getElementById('app')
+ReactDOM.render(<App name=\\"Jane\\" />, mountNode)",
+  },
+  "webpack.config.js": "const path = require('path')
+
+
+const config = {
+  entry: './src/index.jsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.jsx',
+      '.tsx'
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\\\\.js(x)?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: []
+}
+
+module.exports = config",
+}
+`;
+
+exports[`Webpack + Vue + Babel + Ts 1`] = `
+Object {
+  ".babelrc": "{
+  \\"presets\\": [
+    [
+      \\"@babel/preset-env\\",
+      {
+        \\"modules\\": false
+      }
+    ]
+  ]
+}",
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "dist": Object {
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script src=\\"index.js\\"></script>
+  </body>
+</html>",
+  },
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"webpack serve --mode development\\",
+    \\"build\\": \\"webpack --mode production\\"
+  },
+  \\"dependencies\\": {
+    \\"vue\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@babel/core\\": \\"^1.0.0\\",
+    \\"@babel/preset-env\\": \\"^1.0.0\\",
+    \\"@vue/compiler-sfc\\": \\"^1.0.0\\",
+    \\"babel-loader\\": \\"^1.0.0\\",
+    \\"ts-loader\\": \\"^1.0.0\\",
+    \\"typescript\\": \\"^1.0.0\\",
+    \\"vue-loader\\": \\"^1.0.0\\",
+    \\"webpack\\": \\"^1.0.0\\",
+    \\"webpack-cli\\": \\"^1.0.0\\",
+    \\"webpack-dev-server\\": \\"^1.0.0\\"
+  }
+}",
+  "src": Object {
+    "App.vue": "<template>
+  <div>
+    <h1>{{ name }}</h1>
+  </div>
+</template>
+
+<script lang=\\"ts\\">
+export default {
+  setup() {
+    return { name: 'Hello World!' }
+  }
+}
+</script>",
+    "index.ts": "import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')",
+    "shims-vue.d.ts": "declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}",
+  },
+  "tsconfig.json": "{
+  \\"compilerOptions\\": {
+    \\"outDir\\": \\"./dist/\\",
+    \\"sourceMap\\": true,
+    \\"strict\\": true,
+    \\"noImplicitReturns\\": true,
+    \\"noImplicitAny\\": true,
+    \\"module\\": \\"es6\\",
+    \\"moduleResolution\\": \\"node\\",
+    \\"target\\": \\"es5\\",
+    \\"allowJs\\": true,
+    \\"jsx\\": \\"react\\"
+  },
+  \\"include\\": [
+    \\"./src/**/*\\"
+  ]
+}",
+  "webpack.config.js": "const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+
+const config = {
+  entry: './src/index.ts',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.ts',
+      '.vue'
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\\\\.ts(x)?$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [
+            /\\\\.vue$/
+          ]
+        },
+        exclude: /node_modules/
+      },
+      {
+        test: /\\\\.vue$/,
+        loader: 'vue-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\\\\.js(x)?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
+}
+
+module.exports = config",
+}
+`;
+
+exports[`Webpack + Vue 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "dist": Object {
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script src=\\"index.js\\"></script>
+  </body>
+</html>",
+  },
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"webpack serve --mode development\\",
+    \\"build\\": \\"webpack --mode production\\"
+  },
+  \\"dependencies\\": {
+    \\"vue\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@vue/compiler-sfc\\": \\"^1.0.0\\",
+    \\"vue-loader\\": \\"^1.0.0\\",
+    \\"webpack\\": \\"^1.0.0\\",
+    \\"webpack-cli\\": \\"^1.0.0\\",
+    \\"webpack-dev-server\\": \\"^1.0.0\\"
+  }
+}",
+  "src": Object {
+    "App.vue": "<template>
+  <div>
+    <h1>{{ name }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    return { name: 'Hello World!' }
+  }
+}
+</script>",
+    "index.js": "import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')",
+  },
+  "webpack.config.js": "const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+
+const config = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.vue',
+      '.ts'
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\\\\.vue$/,
+        loader: 'vue-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
+}
+
+module.exports = config",
+}
+`;
