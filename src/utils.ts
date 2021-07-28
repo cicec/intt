@@ -1,6 +1,8 @@
+import fs from 'fs'
+import path from 'path'
 import process from 'child_process'
 import { stringify as jsStringify } from 'javascript-stringify'
-import { Answers, Bundler, CLIOptions, Feature, Framework } from './types'
+import { Answers, Bundler, CLIOptions, Feature, Framework, Files } from './types'
 
 export const keys = <K extends string>(obj: Record<K, any>) => Object.keys(obj) as K[]
 
@@ -104,3 +106,17 @@ export const getCLIOptions = ({
     typescript: features.includes(Feature.TYPESCRIPT)
   }
 })
+
+export const writeFiles = async (fileMap: Files, dir: string) => {
+  fs.mkdirSync(dir)
+
+  foreach((value, key) => {
+    if (typeof value === 'string') {
+      fs.writeFileSync(path.resolve(dir, key), value)
+    }
+
+    if (typeof value === 'object') {
+      writeFiles(value, path.resolve(dir, key))
+    }
+  }, fileMap)
+}
