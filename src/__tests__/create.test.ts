@@ -1,6 +1,6 @@
 import { URL } from 'url'
 import { create } from '../create'
-import { Answers, Bundler, Feature, Framework } from '../types'
+import { Answers, Bundler, Feature, Framework, Test } from '../types'
 
 const name = 'intt-app'
 
@@ -110,6 +110,32 @@ test('Snowpack + Vue + Ts', async () => {
     bundler: Bundler.SNOWPACK,
     framework: Framework.VUE,
     features: [Feature.TYPESCRIPT]
+  }
+
+  const files = await create(answers)
+
+  return expect(files).toMatchSnapshot()
+})
+
+test('Webpack + React + Jest', async () => {
+  const answers: Answers = {
+    name,
+    bundler: Bundler.WEBPACK,
+    framework: Framework.REACT,
+    test: Test.JEST
+  }
+
+  const files = await create(answers)
+
+  return expect(files).toMatchSnapshot()
+})
+
+test('Webpack + React + AVA', async () => {
+  const answers: Answers = {
+    name,
+    bundler: Bundler.SNOWPACK,
+    framework: Framework.VUE,
+    test: Test.AVA
   }
 
   const files = await create(answers)

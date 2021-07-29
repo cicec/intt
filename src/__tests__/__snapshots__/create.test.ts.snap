@@ -351,6 +351,102 @@ createApp(App).mount('#app')",
 }
 `;
 
+exports[`Webpack + React + AVA 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "ava.config.js": "export default {
+  files: ['tests/**/*']
+}",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"snowpack dev\\",
+    \\"build\\": \\"snowpack build\\",
+    \\"test\\": \\"ava\\"
+  },
+  \\"dependencies\\": {
+    \\"vue\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"@snowpack/plugin-vue\\": \\"^1.0.0\\",
+    \\"ava\\": \\"^1.0.0\\",
+    \\"snowpack\\": \\"^1.0.0\\"
+  }
+}",
+  "snowpack.config.json": "{
+  \\"mount\\": {
+    \\"dist\\": \\"/\\",
+    \\"src\\": \\"/\\"
+  },
+  \\"plugins\\": [
+    \\"@snowpack/plugin-vue\\"
+  ]
+}",
+  "src": Object {
+    "App.vue": "<template>
+  <div>
+    <h1>{{ name }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    return { name: 'Hello World!' }
+  }
+}
+</script>",
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>intt-app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script type=\\"module\\" src=\\"index.js\\"></script>
+  </body>
+</html>",
+    "index.js": "import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App).mount('#app')",
+  },
+  "tests": Object {
+    "index.test.js": "const test = require('ava')
+
+test('foo', t => {
+  t.pass()
+})
+
+test('bar', async t => {
+  const bar = Promise.resolve('bar')
+  t.is(await bar, 'bar')
+})",
+  },
+}
+`;
+
 exports[`Webpack + React + Babel + Ts 1`] = `
 Object {
   ".babelrc": "{
@@ -581,6 +677,112 @@ const config = {
         exclude: /node_modules/
       }
     ]
+  },
+  plugins: []
+}
+
+module.exports = config",
+}
+`;
+
+exports[`Webpack + React + Jest 1`] = `
+Object {
+  ".gitignore": ".cache/
+coverage/
+dist/*
+!dist/index.html
+node_modules/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db",
+  "dist": Object {
+    "index.html": "<!DOCTYPE html>
+<html>
+  <head>
+    <title>app</title>
+    <meta charset=\\"utf-8\\" />
+  </head>
+  <body>
+    <div id=\\"app\\"></div>
+    <script src=\\"index.js\\"></script>
+  </body>
+</html>",
+  },
+  "jest.config.js": "",
+  "package.json": "{
+  \\"name\\": \\"intt-app\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"description\\": \\"\\",
+  \\"main\\": \\"index.js\\",
+  \\"keywords\\": [],
+  \\"author\\": \\"\\",
+  \\"license\\": \\"MIT\\",
+  \\"scripts\\": {
+    \\"start\\": \\"webpack serve --mode development\\",
+    \\"build\\": \\"webpack --mode production\\",
+    \\"test\\": \\"jest\\"
+  },
+  \\"dependencies\\": {
+    \\"react\\": \\"^1.0.0\\",
+    \\"react-dom\\": \\"^1.0.0\\"
+  },
+  \\"devDependencies\\": {
+    \\"jest\\": \\"^1.0.0\\",
+    \\"webpack\\": \\"^1.0.0\\",
+    \\"webpack-cli\\": \\"^1.0.0\\",
+    \\"webpack-dev-server\\": \\"^1.0.0\\"
+  }
+}",
+  "src": Object {
+    "App.jsx": "import React from 'react'
+
+const App = props => (
+  <>
+    <h1>Hello {props.name}</h1>
+  </>
+)
+
+export default App",
+    "index.jsx": "import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+var mountNode = document.getElementById('app')
+ReactDOM.render(<App name=\\"Jane\\" />, mountNode)",
+  },
+  "tests": Object {
+    "index.test.js": "test('adds 1 + 2 to equal 3', () => {
+  expect(1 + 2).toBe(3);
+});",
+  },
+  "webpack.config.js": "const path = require('path')
+
+
+const config = {
+  entry: './src/index.jsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.jsx',
+      '.tsx'
+    ]
+  },
+  module: {
+    rules: []
   },
   plugins: []
 }
