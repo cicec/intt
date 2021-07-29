@@ -3,7 +3,7 @@ import path from 'path'
 import prompts from 'prompts'
 import { red } from 'kolorist'
 import { getCLIOptions } from './utils'
-import { Framework, Bundler, Feature } from './types'
+import { Framework, Bundler, Feature, Test } from './types'
 
 export const prompt = (name?: string) =>
   prompts(
@@ -65,6 +65,16 @@ export const prompt = (name?: string) =>
 
           return choices
         }
+      },
+      {
+        type: 'select',
+        name: 'test',
+        message: 'Select a testing framework: ',
+        choices: [
+          { title: 'None', value: Test.NONE },
+          { title: 'Jest', value: Test.JEST },
+          { title: 'AVA', value: Test.AVA }
+        ]
       }
     ],
     {
