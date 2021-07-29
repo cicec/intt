@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent'
-import { Plugin } from '../types'
+import { CLIOptions } from '../types'
 
 const testSample = () => dedent`
   test('adds 1 + 2 to equal 3', () => {
@@ -7,7 +7,7 @@ const testSample = () => dedent`
   });
 `
 
-const jest: Plugin = ({ is }) => {
+export default ({ is }: CLIOptions) => {
   return {
     condition: is.jest,
     files: {
@@ -24,5 +24,3 @@ const jest: Plugin = ({ is }) => {
     }
   }
 }
-
-export default jest

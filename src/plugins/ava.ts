@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent'
-import { Plugin } from '../types'
+import { CLIOptions } from '../types'
 
 const testSample = () => dedent`
   const test = require('ava')
@@ -20,7 +20,7 @@ const testConfig = () => dedent`
   }
 `
 
-const ava: Plugin = ({ is }) => {
+export default ({ is }: CLIOptions) => {
   return {
     condition: is.ava,
     files: {
@@ -37,5 +37,3 @@ const ava: Plugin = ({ is }) => {
     }
   }
 }
-
-export default ava

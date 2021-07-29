@@ -21,10 +21,10 @@ export enum Test {
 
 export type Answers = {
   name: string
-  bundler: Bundler
-  framework: Framework
-  features: Feature[]
-  test: Test
+  bundler?: Bundler
+  framework?: Framework
+  features?: Feature[]
+  test?: Test
 }
 
 export type Selection =
