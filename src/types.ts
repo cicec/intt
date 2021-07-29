@@ -13,14 +13,29 @@ export enum Feature {
   TYPESCRIPT = 'typescript'
 }
 
+export enum Test {
+  NONE = 'none',
+  JEST = 'jest',
+  AVA = 'ava'
+}
+
 export type Answers = {
   name: string
   bundler: Bundler
   framework: Framework
   features: Feature[]
+  test: Test
 }
 
-export type Selection = 'webpack' | 'snowpack' | 'react' | 'vue' | 'babel' | 'typescript'
+export type Selection =
+  | 'webpack'
+  | 'snowpack'
+  | 'react'
+  | 'vue'
+  | 'babel'
+  | 'typescript'
+  | 'jest'
+  | 'ava'
 
 export type CLIOptions = {
   name: string
