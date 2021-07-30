@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="0.2.1"></a>
+## 0.2.1 (2021-07-29)
+
+### Added
+
+- ✅ Add tests for testing framework [[aca8a34](https://github.com/cicec/peekaboo/commit/aca8a34c7b718c3b523798ca79cf49194ade37b8)]
+- ✨ Add support for testing framework(jest, ava) ([#6](https://github.com/cicec/peekaboo/issues/6)) [[e2b791f](https://github.com/cicec/peekaboo/commit/e2b791f10e5b519f6c0ac15ee6a0a9ff226414b4)]
+- ✅ Add tests for create.ts [[21df0ce](https://github.com/cicec/peekaboo/commit/21df0ce721d5d7c917aa648a59867157a8a27165)]
+
+### Changed
+
+- 🔧 Update esm config, add jest [[d577b93](https://github.com/cicec/peekaboo/commit/d577b9366e8a4c8f6bcfd2df243766187bd5dee2)]
+- ♻️ Improve code structure [[8ef66c5](https://github.com/cicec/peekaboo/commit/8ef66c566b9d70234d291e5b308dd3237463c1bb)]
+- 🔧 Allow resolve json module [[eefcfe7](https://github.com/cicec/peekaboo/commit/eefcfe70a045470f451af8f585b6696b21b83ec6)]
+- 🔧 Update quote props [[c77a31d](https://github.com/cicec/peekaboo/commit/c77a31d73847b0aa601b12a5b6d7803188fd9c69)]
+
+### Fixed
+
+- 🐛 Fix types [[73fcb65](https://github.com/cicec/peekaboo/commit/73fcb6530325f7f66385c339da0e5874132867ca)]
+
+
 <a name="0.2.0"></a>
 ## 0.2.0 (2021-07-26)
 
