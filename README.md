@@ -2,17 +2,41 @@
 
 > A command line tool to create front-end apps easily and quickly
 
-## Install
+## 📦 Install
 
 ```
 $ npm install -g intt
 ```
 
-## Usage
+## 🎯 Usage
 
 ```
 $ intt my-app
 ```
+
+## ✨ Features
+
+Options for combinations
+
+- Module Bundler
+
+  - Webpack
+  - Snowpack
+
+- Framework
+
+  - React
+  - Vue
+
+- Transpiler
+
+  - Typescript
+  - Babel
+
+- Test Framework
+
+  - Jest
+  - AVA
 
 ## License
 
