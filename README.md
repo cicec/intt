@@ -1,4 +1,8 @@
-# 🎉 Intt
+<p align="center">
+  <img src="./docs/images/logo.png" width="50%" />
+</p>
+
+# Intt
 
 > A command line tool to create front-end apps easily and quickly
 
