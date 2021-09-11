@@ -4,7 +4,7 @@
 
 # Intt
 
-> A command line tool to create front-end apps easily and quickly
+> Create a front-end apps in seconds
 
 ## 📦 Install
 
