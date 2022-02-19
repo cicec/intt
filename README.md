@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="./docs/images/logo.png" width="50%" />
-</p>
-
 # Intt
 
 > Create a front-end apps in seconds
